@@ -12,18 +12,22 @@ const CardListing = (props) => {
 
   useEffect(() => {
     if (searchTerm.length === 0) {
-      conferenceData()
-        .then((res) => {
-          if ((res && res !== null) || undefined || "") {
-            setPaidList(res.data.paid);
-            setFreeList(res.data.free);
-          }
-        })
-        .catch((error) => {
-          console.log("Error getting conference data: " + error);
-        });
+      onConferenceApiHit();
     }
   }, [selectType, searchTerm]);
+
+  const onConferenceApiHit = () => {
+    conferenceData()
+      .then((res) => {
+        if ((res && res !== null) || undefined || "") {
+          setPaidList(res.data.paid);
+          setFreeList(res.data.free);
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting conference data: " + error);
+      });
+  };
 
   /**
    * Function called for search event for conference name
@@ -169,6 +173,7 @@ const CardListing = (props) => {
                             className="visit-website"
                             href={list.confRegUrl}
                             target="_blank"
+                            rel="noreferrer"
                           >
                             Visit Website
                           </a>
@@ -207,6 +212,7 @@ const CardListing = (props) => {
                             className="visit-website"
                             href={list.confRegUrl}
                             target="_blank"
+                            rel="noreferrer"
                           >
                             Visit Website
                           </a>
@@ -244,3 +250,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { conferenceData })(CardListing);
+
